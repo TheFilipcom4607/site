@@ -18,7 +18,10 @@ const socials = [
 		handle: "thefilipcom4607",
 	},
  {
-		handle: "More comming soon...",
+		icon: <Twitter size={20} />,
+		href: "https://thefilippors.vercel.app/contact/",
+		label: "Github",
+		handle: "More comming (not) soon...™",
 	},
 ];
 

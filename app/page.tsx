@@ -39,8 +39,7 @@ export default function Home() {
      
 					
 					<br />
-					and playing with raspberry pi
-					</Link>{" "}
+					And making things with raspberry pi
 					at night.
 				</h2>
 			</div>

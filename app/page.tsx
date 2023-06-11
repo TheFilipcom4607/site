@@ -39,9 +39,7 @@ export default function Home() {
      
 					
 					<br />
-					and working on
-			
-						planetfall.io
+					and playing with raspberry pi
 					</Link>{" "}
 					at night.
 				</h2>

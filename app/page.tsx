@@ -35,12 +35,7 @@ export default function Home() {
 			<div className="hidden w-screen h-px animate-glow md:block animate-fade-right bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
 			<div className="my-16 text-center animate-fade-in">
 				<h2 className="text-sm text-zinc-500 ">
-					Hi, i am TheFilip. I'm making various things, mainly in python.
-     
-					
-					<br />
-					And making things with raspberry pi
-					at night.
+					Hi, I am TheFilip. I make various things, mainly in Python and work with Raspberry Pi at night.
 				</h2>
 			</div>
 		</div>

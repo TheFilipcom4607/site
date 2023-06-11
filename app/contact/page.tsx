@@ -17,6 +17,9 @@ const socials = [
 		label: "Github",
 		handle: "thefilipcom4607",
 	},
+ {
+		handle: "More comming soon...",
+	},
 ];
 
 export default function Example() {

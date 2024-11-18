@@ -33,12 +33,10 @@ export default async function ProjectsPage() {
     );
   }
 
-  // Assign featured and top projects, with robust fallback logic
   const featured = validProjects.find((project) => project.slug === "unkey") || validProjects[0];
   const top2 = validProjects.find((project) => project.slug === "planetfall") || validProjects[1];
   const top3 = validProjects.find((project) => project.slug === "highstorm") || validProjects[2];
 
-  // Sort remaining projects
   const sorted = validProjects
     .filter(
       (project) =>
@@ -68,43 +66,12 @@ export default async function ProjectsPage() {
 
         <div className="grid grid-cols-1 gap-8 mx-auto lg:grid-cols-2">
           <Card>
-            <Link href={`/projects/${featured?.slug ?? "#"}`}>
-              <article className="relative w-full h-full p-4 md:p-8">
-                <div className="flex items-center justify-between gap-2">
-                  <div className="text-xs text-zinc-100">
-                    {featured?.date ? (
-                      <time dateTime={new Date(featured.date).toISOString()}>
-                        {Intl.DateTimeFormat(undefined, {
-                          dateStyle: "medium",
-                        }).format(new Date(featured.date))}
-                      </time>
-                    ) : (
-                      <span>SOON</span>
-                    )}
-                  </div>
-                </div>
-
-                <h2
-                  id="featured-post"
-                  className="mt-4 text-3xl font-bold text-zinc-100 group-hover:text-white sm:text-4xl font-display"
-                >
-                  {featured?.title ?? "Untitled Project"}
-                </h2>
-                <p className="mt-4 leading-8 duration-150 text-zinc-400 group-hover:text-zinc-300">
-                  {featured?.description ?? "No description available."}
-                </p>
-                <div className="absolute bottom-4 md:bottom-8">
-                  <p className="hidden text-zinc-200 hover:text-zinc-50 lg:block">
-                    Read more <span aria-hidden="true">&rarr;</span>
-                  </p>
-                </div>
-              </article>
-            </Link>
+            <Article project={featured} />
           </Card>
 
           <div className="flex flex-col w-full gap-8 mx-auto border-t border-gray-900/10 lg:mx-0 lg:border-t-0">
             {[top2, top3].map((project) => (
-              <Card key={project?.slug ?? Math.random()}>
+              <Card key={project.slug}>
                 <Article project={project} />
               </Card>
             ))}
@@ -118,7 +85,7 @@ export default async function ProjectsPage() {
               {sorted
                 .filter((_, i) => i % 3 === col)
                 .map((project) => (
-                  <Card key={project?.slug ?? Math.random()}>
+                  <Card key={project.slug}>
                     <Article project={project} />
                   </Card>
                 ))}

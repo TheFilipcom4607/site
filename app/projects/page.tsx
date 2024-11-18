@@ -8,16 +8,21 @@ import { Article } from "./article";
 export const revalidate = 60;
 
 export default async function ProjectsPage() {
-  const featured = allProjects.find((project) => project.slug === "unkey")!;
-  const top2 = allProjects.find((project) => project.slug === "planetfall")!;
-  const top3 = allProjects.find((project) => project.slug === "highstorm")!;
-  const sorted = allProjects
-    .filter((p) => p.published)
+  // Filter out invalid projects
+  const validProjects = allProjects.filter((project) => project.slug && project.published);
+
+  // Assign featured and top projects, with fallback logic
+  const featured = validProjects.find((project) => project.slug === "unkey") || validProjects[0];
+  const top2 = validProjects.find((project) => project.slug === "planetfall") || validProjects[1];
+  const top3 = validProjects.find((project) => project.slug === "highstorm") || validProjects[2];
+
+  // Sort the remaining projects
+  const sorted = validProjects
     .filter(
       (project) =>
-        project.slug !== featured.slug &&
-        project.slug !== top2.slug &&
-        project.slug !== top3.slug,
+        project.slug !== featured?.slug &&
+        project.slug !== top2?.slug &&
+        project.slug !== top3?.slug,
     )
     .sort(
       (a, b) =>

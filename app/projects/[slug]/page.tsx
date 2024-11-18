@@ -40,19 +40,17 @@ export default async function PostPage({ params }: Props) {
 		notFound();
 	}
 
-	// Fetch views from Redis with error handling
-	let views = 0;
+	// Fetch views from Redis with error handling (not used now)
 	try {
-		views = (await redis.get<number>(["pageviews", "projects", slug].join(":"))) ?? 0;
+		await redis.get<number>(["pageviews", "projects", slug].join(":"));
 	} catch (error) {
 		console.error("Error fetching views from Redis:", error);
 	}
 
 	return (
 		<div className="bg-zinc-50 min-h-screen">
-			<Header project={project} views={views} />
+			<Header project={project} />
 			<ReportView slug={project.slug} />
-
 			<article className="px-4 py-12 mx-auto prose prose-zinc prose-quoteless">
 				<Mdx code={project.body.code} />
 			</article>

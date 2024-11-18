@@ -25,7 +25,7 @@ export default async function ProjectsPage() {
         <Navigation />
         <div className="px-6 pt-20 mx-auto max-w-7xl lg:px-8">
           <h2 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-4xl">
-            Evidence that I have too much free time.
+            Projects.
           </h2>
           <p className="mt-4 text-zinc-400">No projects available at the moment.</p>
         </div>
@@ -61,7 +61,7 @@ export default async function ProjectsPage() {
             Projects
           </h2>
           <p className="mt-4 text-zinc-400">
-            Projects.
+            Evidence that I have too much free time.
           </p>
         </div>
         <div className="w-full h-px bg-zinc-800" />

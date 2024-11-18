@@ -61,7 +61,7 @@ export default async function ProjectsPage() {
             Projects
           </h2>
           <p className="mt-4 text-zinc-400">
-            Evidence that I have too much free time.
+            More to come. (the view counter is broken)
           </p>
         </div>
         <div className="w-full h-px bg-zinc-800" />

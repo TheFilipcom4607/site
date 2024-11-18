@@ -2,7 +2,7 @@ import "../global.css";
 import { Inter } from "@next/font/google";
 import LocalFont from "@next/font/local";
 import { Metadata } from "next";
-import { Analytics } from "./components/analytics";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
 	title: {
@@ -12,8 +12,7 @@ export const metadata: Metadata = {
 	description: "Developer",
 	openGraph: {
 		title: "TheFilip.com",
-		description:
-			"Developer",
+		description: "Developer",
 		url: "TheFilip.com",
 		siteName: "TheFilip.com",
 		images: [
@@ -45,6 +44,7 @@ export const metadata: Metadata = {
 		shortcut: "/favicon.png",
 	},
 };
+
 const inter = Inter({
 	subsets: ["latin"],
 	variable: "--font-inter",
@@ -62,15 +62,14 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en" className={[inter.variable, calSans.variable].join(" ")}>
-			<head>
-				<Analytics />
-			</head>
+			<head></head>
 			<body
 				className={`bg-black ${
 					process.env.NODE_ENV === "development" ? "debug-screens" : undefined
 				}`}
 			>
 				{children}
+				<Analytics />
 			</body>
 		</html>
 	);

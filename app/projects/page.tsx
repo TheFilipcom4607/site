@@ -33,10 +33,12 @@ export default async function ProjectsPage() {
     );
   }
 
+  // Assign featured and top projects with fallbacks
   const featured = validProjects.find((project) => project.slug === "unkey") || validProjects[0];
   const top2 = validProjects.find((project) => project.slug === "planetfall") || validProjects[1];
   const top3 = validProjects.find((project) => project.slug === "highstorm") || validProjects[2];
 
+  // Sort remaining projects
   const sorted = validProjects
     .filter(
       (project) =>
@@ -70,11 +72,13 @@ export default async function ProjectsPage() {
           </Card>
 
           <div className="flex flex-col w-full gap-8 mx-auto border-t border-gray-900/10 lg:mx-0 lg:border-t-0">
-            {[top2, top3].map((project) => (
-              <Card key={project.slug}>
-                <Article project={project} />
-              </Card>
-            ))}
+            {[top2, top3]
+              .filter((project) => project) // Ensure projects are valid
+              .map((project) => (
+                <Card key={project.slug}>
+                  <Article project={project} />
+                </Card>
+              ))}
           </div>
         </div>
         <div className="hidden w-full h-px md:block bg-zinc-800" />

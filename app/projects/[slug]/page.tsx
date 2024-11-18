@@ -26,14 +26,27 @@ export async function generateStaticParams(): Promise<Props["params"][]> {
 
 export default async function PostPage({ params }: Props) {
 	const slug = params?.slug;
-	const project = allProjects.find((project) => project.slug === slug);
 
-	if (!project) {
+	if (!slug) {
+		console.error("Missing slug in params:", params);
 		notFound();
 	}
 
-	const views =
-		(await redis.get<number>(["pageviews", "projects", slug].join(":"))) ?? 0;
+	// Find the project by slug
+	const project = allProjects.find((project) => project.slug === slug);
+
+	if (!project) {
+		console.error(`Project not found for slug: ${slug}`);
+		notFound();
+	}
+
+	// Fetch views from Redis with error handling
+	let views = 0;
+	try {
+		views = (await redis.get<number>(["pageviews", "projects", slug].join(":"))) ?? 0;
+	} catch (error) {
+		console.error("Error fetching views from Redis:", error);
+	}
 
 	return (
 		<div className="bg-zinc-50 min-h-screen">

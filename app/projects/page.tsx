@@ -8,26 +8,34 @@ import { Article } from "./article";
 export const revalidate = 60;
 
 export default async function ProjectsPage() {
-  // Filter out invalid projects
-  const validProjects = allProjects.filter((project) => project.slug && project.published);
+  // Filter out invalid projects to ensure all have slugs
+  const validProjects = allProjects.filter(
+    (project) => project?.slug && project?.published
+  );
 
-  // Assign featured and top projects, with fallback logic
+  // Ensure there are valid projects to render
+  if (validProjects.length === 0) {
+    console.error("No valid projects found");
+    return <div>No projects available at the moment.</div>;
+  }
+
+  // Assign featured and top projects, with fallbacks
   const featured = validProjects.find((project) => project.slug === "unkey") || validProjects[0];
   const top2 = validProjects.find((project) => project.slug === "planetfall") || validProjects[1];
   const top3 = validProjects.find((project) => project.slug === "highstorm") || validProjects[2];
 
-  // Sort the remaining projects
+  // Sort remaining projects
   const sorted = validProjects
     .filter(
       (project) =>
         project.slug !== featured?.slug &&
         project.slug !== top2?.slug &&
-        project.slug !== top3?.slug,
+        project.slug !== top3?.slug
     )
     .sort(
       (a, b) =>
         new Date(b.date ?? Number.POSITIVE_INFINITY).getTime() -
-        new Date(a.date ?? Number.POSITIVE_INFINITY).getTime(),
+        new Date(a.date ?? Number.POSITIVE_INFINITY).getTime()
     );
 
   return (
@@ -91,33 +99,17 @@ export default async function ProjectsPage() {
         <div className="hidden w-full h-px md:block bg-zinc-800" />
 
         <div className="grid grid-cols-1 gap-4 mx-auto lg:mx-0 md:grid-cols-3">
-          <div className="grid grid-cols-1 gap-4">
-            {sorted
-              .filter((_, i) => i % 3 === 0)
-              .map((project) => (
-                <Card key={project.slug}>
-                  <Article project={project} />
-                </Card>
-              ))}
-          </div>
-          <div className="grid grid-cols-1 gap-4">
-            {sorted
-              .filter((_, i) => i % 3 === 1)
-              .map((project) => (
-                <Card key={project.slug}>
-                  <Article project={project} />
-                </Card>
-              ))}
-          </div>
-          <div className="grid grid-cols-1 gap-4">
-            {sorted
-              .filter((_, i) => i % 3 === 2)
-              .map((project) => (
-                <Card key={project.slug}>
-                  <Article project={project} />
-                </Card>
-              ))}
-          </div>
+          {[0, 1, 2].map((col) => (
+            <div key={col} className="grid grid-cols-1 gap-4">
+              {sorted
+                .filter((_, i) => i % 3 === col)
+                .map((project) => (
+                  <Card key={project.slug}>
+                    <Article project={project} />
+                  </Card>
+                ))}
+            </div>
+          ))}
         </div>
       </div>
     </div>

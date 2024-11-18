@@ -8,23 +8,37 @@ import { Article } from "./article";
 export const revalidate = 60;
 
 export default async function ProjectsPage() {
-  // Filter out invalid projects to ensure all have slugs
-  const validProjects = allProjects.filter(
-    (project) => project?.slug && project?.published
-  );
+  // Filter out projects with invalid data
+  const validProjects = allProjects.filter((project) => {
+    if (!project?.slug || !project?.title || !project?.published) {
+      console.warn("Invalid project data detected:", project);
+      return false;
+    }
+    return true;
+  });
 
-  // Ensure there are valid projects to render
+  // If no valid projects, render a fallback
   if (validProjects.length === 0) {
     console.error("No valid projects found");
-    return <div>No projects available at the moment.</div>;
+    return (
+      <div className="relative pb-16">
+        <Navigation />
+        <div className="px-6 pt-20 mx-auto max-w-7xl lg:px-8">
+          <h2 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-4xl">
+            Projects
+          </h2>
+          <p className="mt-4 text-zinc-400">No projects available at the moment.</p>
+        </div>
+      </div>
+    );
   }
 
-  // Assign featured and top projects, with fallbacks
+  // Assign featured and top projects with fallbacks
   const featured = validProjects.find((project) => project.slug === "unkey") || validProjects[0];
   const top2 = validProjects.find((project) => project.slug === "planetfall") || validProjects[1];
   const top3 = validProjects.find((project) => project.slug === "highstorm") || validProjects[2];
 
-  // Sort remaining projects
+  // Sort the remaining projects
   const sorted = validProjects
     .filter(
       (project) =>
@@ -52,7 +66,7 @@ export default async function ProjectsPage() {
         </div>
         <div className="w-full h-px bg-zinc-800" />
 
-        <div className="grid grid-cols-1 gap-8 mx-auto lg:grid-cols-2 ">
+        <div className="grid grid-cols-1 gap-8 mx-auto lg:grid-cols-2">
           <Card>
             <Link href={`/projects/${featured.slug}`}>
               <article className="relative w-full h-full p-4 md:p-8">
@@ -88,7 +102,7 @@ export default async function ProjectsPage() {
             </Link>
           </Card>
 
-          <div className="flex flex-col w-full gap-8 mx-auto border-t border-gray-900/10 lg:mx-0 lg:border-t-0 ">
+          <div className="flex flex-col w-full gap-8 mx-auto border-t border-gray-900/10 lg:mx-0 lg:border-t-0">
             {[top2, top3].map((project) => (
               <Card key={project.slug}>
                 <Article project={project} />

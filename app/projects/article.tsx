@@ -1,11 +1,17 @@
 import type { Project } from "@/.contentlayer/generated";
 import Link from "next/link";
+import { Eye } from "lucide-react";
 
 type Props = {
-  project: Project;
+  project: Project | undefined; // Allow undefined for safety
 };
 
 export const Article: React.FC<Props> = ({ project }) => {
+  if (!project || !project.slug) {
+    console.warn("Invalid project passed to Article:", project);
+    return <div className="text-red-500">Invalid project data</div>;
+  }
+
   return (
     <Link href={`/projects/${project.slug}`}>
       <article className="p-4 md:p-8">
@@ -20,6 +26,10 @@ export const Article: React.FC<Props> = ({ project }) => {
             ) : (
               <span>SOON</span>
             )}
+          </span>
+          <span className="text-zinc-500 text-xs flex items-center gap-1">
+            <Eye className="w-4 h-4" />{" "}
+            {Intl.NumberFormat("en-US", { notation: "compact" }).format(0)} {/* Replace 0 with views */}
           </span>
         </div>
         <h2 className="z-20 text-xl font-medium duration-1000 lg:text-3xl text-zinc-200 group-hover:text-white font-display">
